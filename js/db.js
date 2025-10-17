@@ -1,43 +1,42 @@
-import {openDB} from "idb"
+import {openDB} from 'idb';
 
-let db
+let db 
 
 async function createDB() {
     try{
-        db = await openDB('banco', 1, {
-            upgrade(db, oldVersion, newVersion, transaction){
-                switch (oldVersion) {
-                    case 0:
-                    case 1: 
-                        const store = db.createObjectStore('pessoas', {
-                             // A propriedade nome será o campo chave
-                             keypath: 'nome' 
-                        })
-                        // Criando um indice id na store, deve estar contido no objeto do banco.
-                        store.createIndex('id', 'id')
-                        showResult("Banco de dados criado!")
-                }
-            }
-        })
-        showResult("Banco de dados abertos")
-    } catch (e) {
-        showResult("Erro ao criar o banco: " + e.message)
+    db = await openDB('little_bank', 1, {
+        upgrade(db, oldVersion, newVersion, transaction) {
+             switch (oldVersion) {
+                case 0:
+                case 1: 
+                  const store = db.createObjectStore('pessoas', {
+                    keyPath: 'nome',
+                  })
+
+                  store.createIndex('id', 'id');
+                  showResult("Little Bank criado com sucesso!")
+             }
+        }
+    });
+    showResult("Banco de dados aberto!")
+    }catch(e){
+        showResult("Erro ao criar o banco de dados: " + e.message)
     }
 }
 
 window.addEventListener("DOMContentLoaded", async event=>{
     createDB();
     document.getElementById("input");
-    document.getElementById("btnSalvar").addEventListener("click",addData);
+    document.getElementById("btnSalvar").addEventListener("click", addData);
     document.getElementById("btnListar").addEventListener("click", getData);
 });
 
 async function addData() {
-    let nome = document.getElementById("nome").value
-    let idade = document.getElementById("idade").value
+    const idade = document.getElementById("idade").value;
+    const nome = document.getElementById("nome").value;
     const tx = await db.transaction('pessoas', 'readwrite');
     const store = tx.objectStore('pessoas');
-    store.add({nome: nome, idade: idade});
+    store.add({nome: nome, idade:idade});
     await tx.done;
 }
 
@@ -56,7 +55,6 @@ async function getData() {
         showResult("Não há nenhum dado no banco!")
     }
 }
-
-function showResult(text) {
-    document.querySelector("output").innerHTML = text
+function showResult(text){
+    document.querySelector("output").innerHTML=text;
 }
