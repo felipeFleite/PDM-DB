@@ -18,10 +18,14 @@
 
 <body class="fullscreen">
     <div class="container">
-        <h1 class="title">Minha primeira PWA</h1>
-        <div style="text-align: center;">
-            <img src="/images/pwa-icon-256.png" alt="pwa" width="256" height="256">
-        </div>
+
+        <main id="camera">
+            <canvas id="camera--sensor"></canvas>
+            <video id="camera--view" autoplay playsinline></video>
+            <img src="//:0" alt="" id="camera--output">
+            <button id="camera--trigger">tirar foto</button>
+            <button id="camera--invert">mudar posição</button>
+        </main>
 
         <input placeholder="nome" id="nome" type="text">
         <input placeholder="idade" id="idade" type="number">
@@ -30,11 +34,11 @@
             <button id="btnSalvar">Salvar</button>
             <button id="btnListar">Listar</button>
         </div>
-    <div>
-        <output></output>
-    </div>
+        <div>
+            <output></output>
+        </div>
 
-</div>
+    </div>
 </body>
 
 </html>
