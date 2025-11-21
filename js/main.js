@@ -23,17 +23,26 @@ const cameraInvert = document.querySelector("#camera--invert");
 const cameraTrigger = document.querySelector("#camera--trigger");
 
 // Estabelecendo o acesso a câmera e inicializando a visualização
+
 function cameraStart() {
     navigator.mediaDevices
         .getUserMedia(constraints)
         .then(function (stream) {
-            let track = stream.getTracks()[0];
-            cameraView.srcObject = stream
+            cameraView.srcObject = stream;
         })
         .catch(function (error) {
             console.error("Ocorreu um Erro.", error);
         });
 }
+
+cameraInvert.onclick = function () {
+    constraints.video.facingMode =
+        constraints.video.facingMode === "environment"
+            ? "user"
+            : "environment";
+            
+    cameraStart();
+};
 
 // Função para tirar foto
 cameraTrigger.onclick = function () {
