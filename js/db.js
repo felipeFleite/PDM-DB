@@ -29,6 +29,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("btnListar").addEventListener("click", getData);
 });
 
+ const deleteDB = async(id) =>{
+    await db.delete('plantas', id)
+    getData()
+}
+
 async function addData() {
     const nome = document.getElementById("nome").value;
     const anotacao = document.getElementById("anotacao").value;
@@ -37,14 +42,6 @@ async function addData() {
     const fotoBase64 = imgEl.src || "";
     const timestamp = imgEl.dataset.timestamp || new Date().toLocaleString();
 
-
- const removeData = async(id) =>{
-    if (!db) return showResult("DB não aberto!")
-
-    await db.delete('plantas', id)
-    showResult("Removido com sucesso!")
-    getData()
-}
 
 
     await db.add('plantas', {
@@ -78,7 +75,7 @@ plantas.forEach(p => {
             <p><b>Data hora:</b> ${p.timestamp}</p>
             <img src="${p.foto}" style="width:150px; border:1px solid #444;">
             <br><br>
-            <button onclick="removeData(${p.id})"
+            <button onclick="deleteDB(${p.id})"
                 style="background:red; color:white; padding:5px 10px; border:none; cursor:pointer;">
                 Remover
             </button>
