@@ -29,10 +29,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("btnListar").addEventListener("click", getData);
 });
 
- const deleteDB = async(id) =>{
-    await db.delete('plantas', id)
-    getData()
+async function removeData(id) {
+    if (!db) return showResult("DB não aberto!");
+
+    await db.delete('plantas', id);
+    showResult("Removido com sucesso!");
+
+    getData(); // Atualiza a lista
 }
+
 
 async function addData() {
     const nome = document.getElementById("nome").value;
@@ -75,10 +80,10 @@ plantas.forEach(p => {
             <p><b>Data hora:</b> ${p.timestamp}</p>
             <img src="${p.foto}" style="width:150px; border:1px solid #444;">
             <br><br>
-            <button onclick="deleteDB(${p.id})"
-                style="background:red; color:white; padding:5px 10px; border:none; cursor:pointer;">
-                Remover
-            </button>
+<button onclick="removeData(${p.id})"
+    style="background:red; color:white; padding:5px 10px; border:none; cursor:pointer;">
+    Remover
+</button>
         </div>`;
 });
 
